@@ -1,0 +1,35 @@
+1) Does ANSI recognize the data type DATE?
+
+Answer: While the ANSI SQL standard defines the blueprint, it helps to understand how major database systems (like PostgreSQL, MySQL, and SQL Server) actually implement these types.
+
+1. The DATE Data Type
+
+What it stores: Only the calendar date (Year, Month, and Day). It explicitly has no concept of time or time zones.
+
+Standard Format: YYYY-MM-DD (e.g., 2026-03-13).
+
+Best Use Cases: Information where the exact hour or time zone is irrelevant. Examples include birthdays, hiring dates, expiration dates, or national holidays.
+
+2. The TIMESTAMP Data Type (The ANSI Standard)
+
+What it stores: Both the date and the time, down to fractional seconds (Year, Month, Day, Hour, Minute, Second, and Fractions of a second).
+
+Standard Format: YYYY-MM-DD hh:mm:ss.nnnnnn (e.g., 2026-03-13 14:30:00.000).
+
+Time Zone Awareness: This is where TIMESTAMP shines. The ANSI standard defines two variants:
+
+TIMESTAMP WITHOUT TIME ZONE: (Often the default). It stores exactly what you input, regardless of where the user is located.
+
+TIMESTAMP WITH TIME ZONE: It stores the exact moment in time. In many database systems (like PostgreSQL), this means the database converts the time to UTC for storage. When a user queries it, the database converts it back to the user's local time zone.
+
+Best Use Cases: System logs, auditing trails, transaction records, or any event where you need to track the exact, absolute moment something happened globally.
+
+3. The DATETIME Data Type (The Vendor Standard)
+
+What it stores: Combined date and time, similar to TIMESTAMP.
+
+Context: DATETIME is not strictly part of the core ANSI SQL standard in the way TIMESTAMP is. However, it is ubiquitous because major vendors like Microsoft SQL Server and MySQL rely heavily on it.
+
+Time Zone Awareness: DATETIME is almost universally "time zone blind." It acts like a digital clock frozen on a specific number. If you save 2026-03-13 09:00:00, it will read as 9:00 AM whether you retrieve it in India or New York.
+
+Best Use Cases: Scheduling future events (like a doctor's appointment at 9:00 AM local time, regardless of daylight saving changes) or working in localized, single-timezone applications.
