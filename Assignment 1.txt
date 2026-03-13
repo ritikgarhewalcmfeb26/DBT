@@ -1,0 +1,269 @@
+-----Assignment 1------
+------------------------------------------------------------------------------------------------------------------
+(A)SALESPEOPLE
+------------------------------------------------------------------------------------------------------------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| demo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sales_db           |
+| sales_management   |
+| sys                |
++--------------------+
+7 rows in set (0.013 sec)
+
+mysql> create database assignment1;
+Query OK, 1 row affected (0.071 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignment1        |
+| demo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sales_db           |
+| sales_management   |
+| sys                |
++--------------------+
+8 rows in set (0.018 sec)
+
+mysql> use assignment1;
+Database changed
+mysql> create table SALESPEOPLE(Snum int(4),Sname varchar(10),City varchar(10),Comm float(3,2));
+Query OK, 0 rows affected, 2 warnings (0.167 sec)
+
+mysql> desc SALESPEOPLE;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Snum  | int         | YES  |     | NULL    |       |
+| Sname | varchar(10) | YES  |     | NULL    |       |
+| City  | varchar(10) | YES  |     | NULL    |       |
+| Comm  | float(3,2)  | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.027 sec)
+
+mysql> insert into SALESPEOPLE(Sname,Snum,City,Comm) values('Peel',1001,'London',.12);
+Query OK, 1 row affected (0.048 sec)
+
+mysql> select * from SALESPEOPLE;
++------+-------+--------+------+
+| Snum | Sname | City   | Comm |
++------+-------+--------+------+
+| 1001 | Peel  | London | 0.12 |
++------+-------+--------+------+
+1 row in set (0.007 sec)
+
+mysql> insert into SALESPEOPLE values(1002,'Serres','San Jose',.13);
+Query OK, 1 row affected (0.047 sec)
+
+mysql> select * from SALESPEOPLE;
++------+--------+----------+------+
+| Snum | Sname  | City     | Comm |
++------+--------+----------+------+
+| 1001 | Peel   | London   | 0.12 |
+| 1002 | Serres | San Jose | 0.13 |
++------+--------+----------+------+
+2 rows in set (0.007 sec)
+
+mysql> insert into SALESPEOPLE values(1004,'Motika','London',.11), (1007,'Rifkin','Barcelona',.15), (1003,'Axelrod','New York',.10);
+Query OK, 3 rows affected (0.043 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from SALESPEOPLE;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.006 sec)
+
+------------------------------------------------------------------------------------------------------
+(B)CUSTOMERS;
+------------------------------------------------------------------------------------------------------
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignment1        |
+| demo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sales_db           |
+| sales_management   |
+| sys                |
++--------------------+
+8 rows in set (0.025 sec)
+
+mysql> use assignment1;
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_assignment1 |
++-----------------------+
+| salespeople           |
++-----------------------+
+1 row in set (0.028 sec)
+
+mysql> create table customers(Cnum int(4),Cname varchar(10),City varchar(10),Rating int(4),Snum int(4));
+Query OK, 0 rows affected, 3 warnings (0.381 sec)
+
+mysql> desc customers;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Cnum   | int         | YES  |     | NULL    |       |
+| Cname  | varchar(10) | YES  |     | NULL    |       |
+| City   | varchar(10) | YES  |     | NULL    |       |
+| Rating | int         | YES  |     | NULL    |       |
+| Snum   | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.047 sec)
+
+
+mysql> insert into customers values (2001, 'Hoffman', 'London', 100, 1001);
+Query OK, 1 row affected (0.048 sec)
+
+mysql> insert into customers values  (2002, 'Giovanni', 'Rome', 200, 1003) , (2003, 'Liu', 'San Jose', 200,1002);
+Query OK, 2 rows affected (0.045 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into customers values   (2004, 'Grass', 'Berlin', 300, 1002) , (2006, 'Clemens', 'London', 100, 1001) ;
+Query OK, 2 rows affected (0.031 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> insert into customers values  (2007, 'Pereira', 'Rome', 100, 1004);
+Query OK, 1 row affected (0.036 sec)
+
+mysql> insert into customers values   (2008, 'Cisneros', 'San Jose', 300, 1007);
+Query OK, 1 row affected (0.040 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.008 sec)
+
+------------------------------------------------------------------------------------------------------
+(C) ORDERS
+------------------------------------------------------------------------------------------------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignment1        |
+| demo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sales_db           |
+| sales_management   |
+| sys                |
++--------------------+
+8 rows in set (0.019 sec)
+
+mysql> use assignment1;
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_assignment1 |
++-----------------------+
+| customers             |
+| salespeople           |
++-----------------------+
+2 rows in set (0.028 sec)
+
+mysql> create table ORDERS;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table ORDERS(Onum int(4), Amt float(7,2), Odate date,Cnum int(4),Snum int(4));
+Query OK, 0 rows affected, 4 warnings (0.150 sec)
+
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show table orders;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'orders' at line 1
+mysql> show tables;
++-----------------------+
+| Tables_in_assignment1 |
++-----------------------+
+| customers             |
+| orders                |
+| salespeople           |
++-----------------------+
+3 rows in set (0.017 sec)
+
+mysql> desc orders;
++-------+------------+------+-----+---------+-------+
+| Field | Type       | Null | Key | Default | Extra |
++-------+------------+------+-----+---------+-------+
+| Onum  | int        | YES  |     | NULL    |       |
+| Amt   | float(7,2) | YES  |     | NULL    |       |
+| Odate | date       | YES  |     | NULL    |       |
+| Cnum  | int        | YES  |     | NULL    |       |
+| Snum  | int        | YES  |     | NULL    |       |
++-------+------------+------+-----+---------+-------+
+5 rows in set (0.025 sec)
+
+mysql> insert into order values (3001, 18.69,     '03-OCT-1990', 2008, 1007),(3003, 767.19,  '03- OCT -1990', 2001, 1001),(3002, 1900.10, '03- OCT -1990', 2007, 1004),(3005, 5160.45, '03- OCT -1990', 2003, 1002),(3006, 1098.16, '03- OCT -1990', 2008, 1007),(3009, 1713.23, '04- OCT -1990', 2002, 1003),(3007, 75.75  , '04- OCT -1990', 2004, 1002),(3008, 4723.00, '05- OCT -1990', 2006, 1001),(3010, 1309.95, '06- OCT -1990', 2004, 1002),(3011, 9891.88, '06- OCT -1990', 2006, 1001);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order values (3001, 18.69,     '03-OCT-1990', 2008, 1007),(3003, 767.19,  '03- O' at line 1
+mysql> INSERT INTO ORDERS (Onum, Amt, Odate, Cnum, Snum)
+    -> VALUES
+    ->     (3001, 18.69,   '1990-10-03', 2008, 1007),
+    ->     (3003, 767.19,  '1990-10-03', 2001, 1001),
+    ->     (3002, 1900.10, '1990-10-03', 2007, 1004),
+    ->     (3005, 5160.45, '1990-10-03', 2003, 1002),
+    ->     (3006, 1098.16, '1990-10-03', 2008, 1007),
+    ->     (3009, 1713.23, '1990-10-04', 2002, 1003),
+    ->     (3007, 75.75,   '1990-10-04', 2004, 1002),
+    ->     (3008, 4723.00, '1990-10-05', 2006, 1001),
+    ->     (3010, 1309.95, '1990-10-06', 2004, 1002),
+    ->     (3011, 9891.88, '1990-10-06', 2006, 1001);
+Query OK, 10 rows affected (0.063 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> SELECT
+    ->     Onum AS ONUM,
+    ->     Amt AS AMT,
+    ->     UPPER(DATE_FORMAT(Odate, '%d-%b-%Y')) AS ODATE,
+    ->     Cnum AS CNUM,
+    ->     Snum AS SNUM
+    -> FROM ORDERS;
++------+---------+-------------+------+------+
+| ONUM | AMT     | ODATE       | CNUM | SNUM |
++------+---------+-------------+------+------+
+| 3001 |   18.69 | 03-OCT-1990 | 2008 | 1007 |
+| 3003 |  767.19 | 03-OCT-1990 | 2001 | 1001 |
+| 3002 | 1900.10 | 03-OCT-1990 | 2007 | 1004 |
+| 3005 | 5160.45 | 03-OCT-1990 | 2003 | 1002 |
+| 3006 | 1098.16 | 03-OCT-1990 | 2008 | 1007 |
+| 3009 | 1713.23 | 04-OCT-1990 | 2002 | 1003 |
+| 3007 |   75.75 | 04-OCT-1990 | 2004 | 1002 |
+| 3008 | 4723.00 | 05-OCT-1990 | 2006 | 1001 |
+| 3010 | 1309.95 | 06-OCT-1990 | 2004 | 1002 |
+| 3011 | 9891.88 | 06-OCT-1990 | 2006 | 1001 |
++------+---------+-------------+------+------+
+10 rows in set (0.055 sec)
+-------------------------------------------------------------------END---------------------------------------------------------------------
