@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------------------------------------
+Assignment – 12
+Using the operators IN, ANY, and ALL.
+-------------------------------------------------------------------------------------------------------------
+1) Write a query that selects all customers whose ratings are equal to or greater than
+ANY of Serres’. 
+
+Query: SELECT *
+	FROM customers
+	WHERE rating >= ANY (
+       SELECT rating
+    	FROM customers
+    	WHERE customer_name = 'Serres'
+	);
+--------------------------------------------------------------------------------------------------------------
+2) Write a query using ANY or ALL that will find all salespeople who have no
+customers located in their city. 
+
+Query: SELECT *
+        FROM salespeople
+        WHERE city <> ALL (
+       SELECT city
+        FROM customers
+         );
+----------------------------------------------------------------------------------------------------------------
+3) Write a query that selects all orders for amounts greater than any for the-
+customers in London.
+
+Query: SELECT *
+	FROM orders
+	WHERE amount > ANY (
+       SELECT o.amount
+    	FROM orders o
+    	JOIN customers c ON o.customer_id = c.customer_id
+        WHERE c.city = 'London'
+	);
+----------------------------------------------------------------------------------------------------------------
+4) Write the above query using MIN or MAX. 
+
+Query: SELECT *
+        FROM orders
+	WHERE amount > (
+      SELECT MIN(o.amount)
+        FROM orders o
+    	JOIN customers c ON o.customer_id = c.customer_id
+    	WHERE c.city = 'London'
+ 	);
+---------------------------------------------END---------------------------------------------------------------
