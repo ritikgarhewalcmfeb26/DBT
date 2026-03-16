@@ -1,0 +1,32 @@
+--------------------------------------------------------------------------------------------------------------------
+Assignment 8
+--------------------------------------------------------------------------------------------------------------------
+Question 1: Assume each salesperson has a 12% commission. Write a query on the orders
+            table that will produce the order number, the salesperson number, and the amount
+            of the salesperson’s commission for that order.
+
+Query: SELECT onum, snum, ROUND(amt * 0.12, 2) AS commission
+	FROM orders;
+---------------------------------------------------------------------------------------------------------------------
+Question 2: Write a query on the Customers table that will find the highest rating in each city.
+            Put the output in this form: For the city (city), the highest rating is : (rating).
+
+Query: SELECT CONCAT('For the city ', city, ', the highest rating is : ', MAX(rating), '.') AS city_rating_summary
+       FROM Customers
+       GROUP BY city;
+-----------------------------------------------------------------------------------------------------------------------
+Question 3: Write a query that lists customers in descending order of rating. Output the rating
+	    field first, followed by the customer’s name and number.
+
+Query: SELECT rating, cname, cnum
+  	FROM Customers
+	ORDER BY rating DESC;
+------------------------------------------------------------------------------------------------------------------------
+Question 4: Write a query that totals the orders for each day and places the results in
+	    descending order.
+
+Query: SELECT order_date, COUNT(*) AS total_daily_orders
+	FROM orders
+	GROUP BY order_date
+	ORDER BY total_daily_orders DESC;
+--------------------------------------------------------END--------------------------------------------------------------
