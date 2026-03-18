@@ -1,0 +1,181 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assignment 18 (a)
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignment1        |
+| assignment_18      |
+| demo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sales_db           |
+| sales_management   |
+| sys                |
++--------------------+
+9 rows in set (0.028 sec)
+
+mysql> create database assignment18_practise;
+Query OK, 1 row affected (0.036 sec)
+
+mysql> use assignment18_practise;
+Database changed
+mysql> show tables;
+Empty set (0.038 sec)
+
+mysql> SHOW TABLES;
+Empty set (0.034 sec)
+
+mysql> CREATE TABLE customers (
+    ->     cnum INT,
+    ->     cname VARCHAR(100),
+    ->     city VARCHAR(50),
+    ->     PRIMARY KEY (cnum),
+    ->     UNIQUE (cnum, city)
+    -> ) ENGINE=InnoDB;
+Query OK, 0 rows affected (0.443 sec)
+
+mysql> CREATE TABLE orders (
+    ->     onum INT,
+    ->     amt DECIMAL(10, 2),
+    ->     snum INT,
+    ->     cnum INT,
+    ->     PRIMARY KEY (onum),
+    ->     UNIQUE (onum, amt, snum),
+    ->     FOREIGN KEY (cnum) REFERENCES customers(cnum)
+    -> ) ENGINE=InnoDB;
+Query OK, 0 rows affected (0.251 sec)
+
+mysql> CREATE TABLE cityorders (
+    ->     onum INT,
+    ->     amt DECIMAL(10, 2),
+    ->     snum INT,
+    ->     cnum INT,
+    ->     city VARCHAR(50),
+    ->     PRIMARY KEY (onum),
+    ->     FOREIGN KEY (onum, amt, snum) REFERENCES orders (onum, amt, snum),
+    ->     FOREIGN KEY (cnum, city) REFERENCES customers (cnum, city)
+    -> ) ENGINE=InnoDB;
+Query OK, 0 rows affected (0.193 sec)
+
+mysql> show tables;
++---------------------------------+
+| Tables_in_assignment18_practise |
++---------------------------------+
+| cityorders                      |
+| customers                       |
+| orders                          |
++---------------------------------+
+3 rows in set (0.013 sec)
+
+mysql> select * from customers;
+Empty set (0.017 sec)
+
+mysql> select * from orders;
+Empty set (0.012 sec)
+
+mysql> select * from cityorders;
+Empty set (0.012 sec)
+
+mysql> DESC cityorders;
++-------+---------------+------+-----+---------+-------+
+| Field | Type          | Null | Key | Default | Extra |
++-------+---------------+------+-----+---------+-------+
+| onum  | int           | NO   | PRI | NULL    |       |
+| amt   | decimal(10,2) | YES  |     | NULL    |       |
+| snum  | int           | YES  |     | NULL    |       |
+| cnum  | int           | YES  | MUL | NULL    |       |
+| city  | varchar(50)   | YES  |     | NULL    |       |
++-------+---------------+------+-----+---------+-------+
+5 rows in set (0.032 sec)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assignment 18 (a)(alternative) - in this method i create two tables orders and customers create there primary key and forign key and then join using inner join.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mysql> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| assignment1           |
+| assignment18_practise |
+| assignment_18         |
+| demo                  |
+| information_schema    |
+| mysql                 |
+| performance_schema    |
+| sales_db              |
+| sales_management      |
+| sys                   |
++-----------------------+
+10 rows in set (0.011 sec)
+
+mysql> use assignment_18;
+Database changed
+mysql> show tables;
++-------------------------+
+| Tables_in_assignment_18 |
++-------------------------+
+| cityorder               |
+| customers               |
+| orders                  |
++-------------------------+
+3 rows in set (0.012 sec)
+
+mysql> select * from customers;
++------+-------+--------+
+| cnum | cname | city   |
++------+-------+--------+
+|   30 | NULL  | London |
+|   45 | NULL  | Paris  |
+|   55 | NULL  | Mumbai |
++------+-------+--------+
+3 rows in set (0.006 sec)
+
+mysql> select * from orders;
++------+---------+------+------+
+| onum | amt     | snum | cnum |
++------+---------+------+------+
+|  101 | 5000.00 |    5 |   55 |
+|  102 |  150.50 |    5 |   55 |
+|  103 |   75.25 |    8 |   45 |
++------+---------+------+------+
+3 rows in set (0.006 sec)
+
+
+mysql> select * from cityorder;
++------+---------+------+------+--------+
+| onum | amt     | snum | cnum | city   |
++------+---------+------+------+--------+
+|  101 | 5000.00 |    5 |   55 | Mumbai |
+|  102 |  150.50 |    5 |   55 | Mumbai |
+|  103 |   75.25 |    8 |   45 | Paris  |
++------+---------+------+------+--------+
+3 rows in set (0.007 sec)
+
+mysql> DESC cityorder;
++-------+---------------+------+-----+---------+-------+
+| Field | Type          | Null | Key | Default | Extra |
++-------+---------------+------+-----+---------+-------+
+| onum  | int           | YES  |     | NULL    |       |
+| amt   | decimal(10,2) | YES  |     | NULL    |       |
+| snum  | int           | YES  |     | NULL    |       |
+| cnum  | int           | NO   |     | NULL    |       |
+| city  | varchar(50)   | YES  |     | NULL    |       |
++-------+---------------+------+-----+---------+-------+
+5 rows in set (0.012 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assignment 18 (b) (Self-Referencing Foreign Key)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+mysql> ALTER TABLE orders
+    -> ADD COLUMN prev INT,
+    -> ADD UNIQUE (onum, cnum);
+Query OK, 0 rows affected (0.767 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE orders ADD FOREIGN KEY (prev, cnum) REFERENCES orders(onum, cnum);
+Query OK, 3 rows affected (0.598 sec)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
